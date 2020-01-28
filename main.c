@@ -3,84 +3,98 @@
  *
  * library for time operations
  **/
-
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * Checks if a year is a leap year
+/** \brief
  *
- **/
-int istSchaltjahr(int jahr) {
-    //Logik des Programms
-    if (jahr%4 == 0){
-        if (jahr%100 == 0){
-            if (jahr%400 == 0){
-                return 1;
-            } else {
-                return 0;
-            }
-        } else {
-            return 1;
-        }
-    } else {
-        return 0;
-    }
+ * \param day int*
+ * \param month int*
+ * \param year int*
+ * \return void
+ *
+ */
+void input_date(int* day, int* month, int* year)
+{
+
 }
 
-
-/**
- * Calculates the day of the year from a date
+/** \brief
  *
- **/
-int day_of_the_year(int day, int month, int year)
+ * \param year int
+ * \return int
+ *
+ */
+int is_leapyear(int year)
 {
-    int monatstage[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    //int day = 0, month = 0, year = 0;
-
-    if(istSchaltjahr(year)){
-        monatstage[1] = 29;
-    } else {
-        monatstage[1] = 28;
-    }
-
-    if(month > 12 || month < 1 || year < 1 || day < 1 || day > monatstage[month - 1])
+    if(year < 1582)
     {
         return -1;
     }
 
-    /*do {
+    return year%4 == 0 && year%100 != 0 || year%400 == 0;
+}
 
-		do{
-			printf("Bitte geben Sie das heutigen Datum ein!\n");
-			printf("Tag: ");
-			scanf("%i", &tag);
+/** \brief
+ *
+ * \param month int
+ * \param year int
+ * \return int
+ *
+ */
+int get_days_for_month(int month, int year)
+{
+    if(month > 12 || month < 1)
+    {
+        return -1;
+    }
 
-			printf("Monat: ");
-			scanf("%i", &monat);
+    int days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-			printf("Jahr: ");
-			scanf("%i", &jahr);
+    if(is_leapyear(year)){
+        days[1] = 29;
+    } else {
+        days[1] = 28;
+    }
 
-		} while(monat > 12 || monat < 1 || jahr < 1 || tag < 1);
+    return days[month - 1];
+}
 
+/** \brief
+ *
+ * \param day int
+ * \param month int
+ * \param year int
+ * \return int
+ *
+ */
+int exist_date(int day, int month, int year)
+{
+    return !(day < 1 || day > get_days_for_month(month, year) || year < 1582 || year > 2400);
+}
 
-		if(istSchaltjahr(jahr)){
-			monatstage[1] = 29;
-		} else {
-			monatstage[1] = 28;
-		}
-    } while(tag > monatstage[monat - 1]);*/
+/** \brief
+ *
+ * \param day int
+ * \param month int
+ * \param year int
+ * \return int
+ *
+ */
+int day_of_the_year(int day, int month, int year)
+{
+
+    if(!exist_date(day, month, year))
+    {
+        return -1;
+    }
 
     int tagDesJahres = 0;
-    for(int i = 0; i <= month -2 ; i++){
-        tagDesJahres += monatstage[i];
+    for(int i = 1; i < month  ; i++){
+        tagDesJahres += get_days_for_month(i, year);
     }
 
     tagDesJahres += day;
-
-    //printf("Der Tag des Jahres ist %i\n", tagDesJahres);
-
     return tagDesJahres;
 }
 
@@ -88,5 +102,6 @@ int main()
 {
     printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2018));
     printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2020));
+    printf("Tag des Jahres: %i\n", day_of_the_year(1, 3, 1996));
     return 0;
 }
