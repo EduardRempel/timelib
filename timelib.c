@@ -6,10 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/** \brief
+/** \brief Checks if a given year is a leap year
  *
  * \param year int
- * \return int
+ * \return int      0 if false, 1 if true
  *
  */
 int is_leapyear(int year)
@@ -22,7 +22,7 @@ int is_leapyear(int year)
     return (year%4 == 0 && year%100) != 0 || year%400 == 0;
 }
 
-/** \brief
+/** \brief returns the number of days for a given month and year
  *
  * \param month int
  * \param year int
@@ -48,7 +48,7 @@ int get_days_for_month(int month, int year)
     return days[month - 1];
 }
 
-/** \brief
+/** \brief checks if a date is valide
  *
  * \param day int
  * \param month int
@@ -61,11 +61,11 @@ int exist_date(int day, int month, int year)
     return !(day < 1 || day > get_days_for_month(month, year) || year < 1582 || year > 2400);
 }
 
-/** \brief
+/** \brief reads values for day, month and year from a user
  *
- * \param day int*
- * \param month int*
- * \param year int*
+ * \param day int*      output param
+ * \param month int*    output param
+ * \param year int*     output param
  * \return void
  *
  */
@@ -91,7 +91,7 @@ void input_date(int* day, int* month, int* year)
     while(!exist_date(*day, *month, *year));
 }
 
-/** \brief
+/** \brief calculates and returns the day of the year for a given day, month and year
  *
  * \param day int
  * \param month int
@@ -107,12 +107,12 @@ int day_of_the_year(int day, int month, int year)
         return -1;
     }
 
-    int tagDesJahres = 0;
+    int day_of_the_year = 0;
     int i;
     for(i = 1; i < month  ; i++){
-        tagDesJahres += get_days_for_month(i, year);
+        day_of_the_year += get_days_for_month(i, year);
     }
 
-    tagDesJahres += day;
-    return tagDesJahres;
+    day_of_the_year += day;
+    return day_of_the_year;
 }
