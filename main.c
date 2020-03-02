@@ -3,14 +3,26 @@
 
 int main()
 {
-    printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2018));
-    printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2020));
-    printf("Tag des Jahres: %i\n", day_of_the_year(1, 3, 1996));
+    struct date test_date;
+    test_date.day = 31;
+    test_date.month = 12;
+    test_date.year = 2018;
+    printf("Tag des Jahres: %i\n", day_of_the_year(test_date));
+
+    test_date.day = 31;
+    test_date.month = 12;
+    test_date.year = 2020;
+    printf("Tag des Jahres: %i\n", day_of_the_year(test_date));
+
+    test_date.day = 1;
+    test_date.month = 3;
+    test_date.year = 1996;
+    printf("Tag des Jahres: %i\n", day_of_the_year(test_date));
 	int day, month, year;
 	while(1)
 	{
-		input_date(&day, &month, &year);
-		printf("Tag des Jahres: %i\n", day_of_the_year(day, month, year));
+		test_date = input_date_struct();
+		printf("Tag des Jahres: %i\n", day_of_the_year(test_date));
 	}
 
     return 0;
